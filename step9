@@ -1,0 +1,60 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyMYRvz3rfaoKXLKOv4ixwH+",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/tr-dev-bc/Modern_CV_Assignments/blob/main/step9\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "q_bILRJC29CX"
+      },
+      "outputs": [],
+      "source": [
+        "# Basing my code on Chapter07/Calculating_intersection_over_union.ipynb and pages 237-238\n",
+        "\n",
+        "def obtain_iou(box1, box2):\n",
+        "    \"\"\"Calculate the Intersection over Union (IoU) between two bounding boxes.\"\"\"\n",
+        "    x1_intersection = max(box1[0], box2[0])\n",
+        "    y1_intersection = max(box1[1], box2[1])       # These four lines simply get the top left and bottom right of the intersection rectangle\n",
+        "    x2_intersection = min(box1[2], box2[2])\n",
+        "    y2_intersection = min(box1[3], box2[3])\n",
+        "\n",
+        "    intersection_width = max(0, x2_intersection - x1_intersection)\n",
+        "    intersection_height = max(0, y2_intersection - y1_intersection)    # getting height and width of the intersecting rectangle while using max to avoid overlap\n",
+        "    intersection_area = intersection_width * intersection_height              # and then getting its area\n",
+        "\n",
+        "    box1_area = (box1[2] - box1[0]) * (box1[3] - box1[1])\n",
+        "    box2_area = (box2[2] - box2[0]) * (box2[3] - box2[1])\n",
+        "\n",
+        "    union_area = box1_area + box2_area - intersection_area      # avoid including intersecting area\n",
+        "\n",
+        "    iou = intersection_area / union_area if union_area > 0 else 0 # This is a slight change to the textbook way -- I'm guarding against an undefined value\n",
+        "    return iou"
+      ]
+    }
+  ]
+}
